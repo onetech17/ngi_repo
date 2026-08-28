@@ -16,6 +16,8 @@ SELECT day, cellkey, enodebid, cellid, rattypeid
 	, validlonlat_totalallerabdlpdcptput_aoa240_270, validlonlat_totalallerabdlpdcptput_aoa270_300, validlonlat_totalallerabdlpdcptput_aoa300_330, validlonlat_totalallerabdlpdcptput_aoa330_360
     , tafar_count, allerabulpdcptput, allerabdlpdcptput, sumulpdcpwithoutlastpiece, sumdlpdcpwithoutlastpiece, sumulpdcperabtimerlen, sumdlpdcperabtimerlen
     , azimuthinvalid_mrcount, azimuthalign_mrcount
+    , totalta, tacount, beforetherotysinrcount, totalbeforetherotysinr, totalcqi0, cqi0count
+    , totalulmcs, ulmcscount, totaldlmcs, dlmcscount, allerabulpdcptputcount, allerabdlpdcptputcount
 FROM (
 	SELECT g0.day AS day, g0.cellkey AS cellkey, g0.enodebid AS enodebid, g0.cellid AS cellid, g0.rattypeid AS rattypeid
 		, g0.dlearfcn AS dlearfcn, g0.pci AS pci, g0.provincecode AS provincecode, g0.citycode AS citycode, g0.districtcode AS districtcode
@@ -57,6 +59,18 @@ FROM (
         , SUM(g0.sumdlpdcperabtimerlen) AS sumdlpdcperabtimerlen
         , sum(azimuthinvalid_mrcount) as azimuthinvalid_mrcount
         , sum(azimuthalign_mrcount) as azimuthalign_mrcount
+        , sum(g0.totalta) as totalta
+        , sum(g0.tacount) as tacount
+        , sum(g0.beforetherotysinrcount) as beforetherotysinrcount
+        , sum(g0.totalbeforetherotysinr) as totalbeforetherotysinr
+        , sum(g0.totalcqi0) as totalcqi0
+        , sum(g0.cqi0count) as cqi0count
+        , sum(g0.totalulmcs) as totalulmcs
+        , sum(g0.ulmcscount) as ulmcscount
+        , sum(g0.totaldlmcs) as totaldlmcs
+        , sum(g0.dlmcscount) as dlmcscount
+        , sum(g0.allerabulpdcptputcount) as allerabulpdcptputcount
+        , sum(g0.allerabdlpdcptputcount) as allerabdlpdcptputcount
 	FROM (
 		SELECT day, cellkey, enodebid, cellid, rattypeid
 			, dlearfcn, pci, provincecode, citycode, districtcode
@@ -74,7 +88,8 @@ FROM (
 			, validlonlat_totalallerabdlpdcptput_aoa90_120, validlonlat_totalallerabdlpdcptput_aoa120_150, validlonlat_totalallerabdlpdcptput_aoa150_180, validlonlat_totalallerabdlpdcptput_aoa180_210, validlonlat_totalallerabdlpdcptput_aoa210_240
 			, validlonlat_totalallerabdlpdcptput_aoa240_270, validlonlat_totalallerabdlpdcptput_aoa270_300, validlonlat_totalallerabdlpdcptput_aoa300_330, validlonlat_totalallerabdlpdcptput_aoa330_360, p_provincecode
             , p_date, tafar_count, allerabulpdcptput, allerabdlpdcptput, sumulpdcpwithoutlastpiece, sumdlpdcpwithoutlastpiece, sumulpdcperabtimerlen, sumdlpdcperabtimerlen, azimuthinvalid_mrcount, azimuthalign_mrcount
-		FROM $bs_net_ltecoverage_base_h$
+            , totalta, tacount, beforetherotysinrcount, totalbeforetherotysinr, totalcqi0, cqi0count, totalulmcs, ulmcscount, totaldlmcs, dlmcscount, allerabulpdcptputcount, allerabdlpdcptputcount
+		FROM $bs_net_ltecoverage_base_h$"
 		WHERE p_provincecode = $bs_net_ltecoverage_base_h.p_provincecode$
 			AND p_date = '$bs_net_ltecoverage_base_h.p_date$'
 	) g0

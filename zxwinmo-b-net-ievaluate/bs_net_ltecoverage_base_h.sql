@@ -188,6 +188,18 @@ SELECT day AS day, hour AS hour, cellkey AS cellkey, enodebid AS enodebid, celli
     , SUM(sumdlpdcperabtimerlen) as sumdlpdcperabtimerlen
     , sum(azimuthinvalid_mrcount) as azimuthinvalid_mrcount
     , sum(azimuthalign_mrcount) as azimuthalign_mrcount
+    , sum(totalta) as totalta
+    , sum(tacount) as tacount
+    , sum(beforetherotysinrcount) as beforetherotysinrcount
+    , sum(totalbeforetherotysinr) as totalbeforetherotysinr
+    , sum(totalcqi0) as totalcqi0
+    , sum(cqi0count) as cqi0count
+    , sum(totalulmcs) as totalulmcs
+    , sum(ulmcscount) as ulmcscount
+    , sum(totaldlmcs) as totaldlmcs
+    , sum(dlmcscount) as dlmcscount
+    , sum(allerabulpdcptputcount) as allerabulpdcptputcount
+    , sum(allerabdlpdcptputcount) as allerabdlpdcptputcount
 FROM $bs_net_ltecoverage_base_q$
 WHERE p_provincecode = $bs_net_ltecoverage_base_q.p_provincecode$
 	AND p_date = '$bs_net_ltecoverage_base_q.p_date$'

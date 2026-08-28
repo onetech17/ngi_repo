@@ -11,6 +11,8 @@ SELECT day, cellkey, gnbid, cellid, ssbarfcn
 	, pdschPrbNum, puschPrbTotalNum, pdschPrbTotalNum, tafar_count
     , dlpdcpsendvolumesum, ulpdcprcvvolumesum, ulRlcSduVolumeWithoutLastPieceSum, dlRlcSduVolumeWithoutLastPieceSum, ulRlcTimeLenSum, dlRlcTimeLenSum
     , azimuthinvalid_mrcount, azimuthalign_mrcount
+    , totalta, tacount, totalulsinr, ulsinrcount, totalcqi0, cqi0count
+    , dlpdcpsendvolumesumcount, ulpdcprcvvolumesumcount
 FROM (
 	SELECT g0.day AS day, g0.cellkey AS cellkey, g0.gnbid AS gnbid, g0.cellid AS cellid, g0.ssbarfcn AS ssbarfcn
 		, g0.pci AS pci, g0.provincecode AS provincecode, g0.citycode AS citycode, g0.districtcode AS districtcode, g0.province AS province
@@ -36,6 +38,14 @@ FROM (
         , SUM(g0.ulRlcTimeLenSum) AS ulRlcTimeLenSum, SUM(g0.dlRlcTimeLenSum) AS dlRlcTimeLenSum
         , sum(azimuthinvalid_mrcount) as azimuthinvalid_mrcount
         , sum(azimuthalign_mrcount) as azimuthalign_mrcount
+        , sum(g0.totalta) as totalta
+        , sum(g0.tacount) as tacount
+        , sum(g0.totalulsinr) as totalulsinr
+        , sum(g0.ulsinrcount) as ulsinrcount
+        , sum(g0.totalcqi0) as totalcqi0
+        , sum(g0.cqi0count) as cqi0count
+        , sum(g0.dlpdcpsendvolumesumcount) as dlpdcpsendvolumesumcount
+        , sum(g0.ulpdcprcvvolumesumcount) as ulpdcprcvvolumesumcount
 	FROM (
 		SELECT day, cellkey, gnbid, cellid, ssbarfcn
 			, pci, provincecode, citycode, districtcode, province
@@ -49,6 +59,7 @@ FROM (
 			, pdschPrbNum, puschPrbTotalNum, pdschPrbTotalNum, p_provincecode, p_date, tafar_count
             , dlpdcpsendvolumesum, ulpdcprcvvolumesum, ulRlcSduVolumeWithoutLastPieceSum, dlRlcSduVolumeWithoutLastPieceSum, ulRlcTimeLenSum, dlRlcTimeLenSum
             , azimuthinvalid_mrcount, azimuthalign_mrcount
+            , totalta, tacount, totalulsinr, ulsinrcount, totalcqi0, cqi0count, dlpdcpsendvolumesumcount, ulpdcprcvvolumesumcount
 		FROM $bs_net_nrcoverage_base_h$
 		WHERE p_provincecode = $bs_net_nrcoverage_base_h.p_provincecode$
 			AND p_date = '$bs_net_nrcoverage_base_h.p_date$'

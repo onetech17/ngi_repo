@@ -101,6 +101,14 @@ SELECT day AS day, hour AS hour, cellkey AS cellkey, gnbid AS gnbid, cellid AS c
     , SUM(dlRlcTimeLenSum) as dlRlcTimeLenSum
     , sum(azimuthinvalid_mrcount) as azimuthinvalid_mrcount
     , sum(azimuthalign_mrcount) as azimuthalign_mrcount
+    , sum(totalta) as totalta
+    , sum(tacount) as tacount
+    , sum(totalulsinr) as totalulsinr
+    , sum(ulsinrcount) as ulsinrcount
+    , sum(totalcqi0) as totalcqi0
+    , sum(cqi0count) as cqi0count
+    , sum(dlpdcpsendvolumesumcount) as dlpdcpsendvolumesumcount
+    , sum(ulpdcprcvvolumesumcount) as ulpdcprcvvolumesumcount
 FROM $bs_net_nrcoverage_base_q$
 WHERE p_provincecode = $bs_net_nrcoverage_base_q.p_provincecode$
 	AND p_date = '$bs_net_nrcoverage_base_q.p_date$'
