@@ -223,12 +223,16 @@ with temp_mrdataAll as (
         grid_three_column_100,
         c047 as locationtype,
         c129 as positionmark,
+        c123 as cqi0,
+        c125 as beforetherotysinr,
         c009 as rsrp,
         c010 as rsrq,
         c017 as mrlon,
         c018 as mrlat,
         (case when c018 is not null and c017 is not null and c.celllat is not null and c.celllon is not null then cast(getdis(cast(c018 as double),cast(c017 as double),c.celllat,c.celllon) as double) else null end) as scellmrdis,
         c024 as ulsinr,
+        c022 as ulmcs,
+        c023 as dlmcs,
         c027 as ta,
         c036 as aoa,
         c042 as puschprbnum,
@@ -269,7 +273,7 @@ with temp_mrdataAll as (
      from
      (
         select
-            c002, c009, c010, c017, c018, c024, c027, c031, c030, c036, c042, c043, c047, c067, c129, c137, 
+            c002, c009, c010, c017, c018, c022, c023, c024, c027, c031, c030, c036, c042, c043, c047, c067, c123, c125, c129, c137,
             c138, c143, c144, c145, c146, c155, c156, c208, c209, c210, c211, d001, d002, d004, d005, 
             grid_three_column_20, grid_three_column_50, grid_three_column_100
         from $l_t054_ex$
@@ -316,12 +320,16 @@ temp_mrdata_hdoaCorrection as (
         grid_three_column_100,
         locationtype,
         positionmark,
+        cqi0,
+        beforetherotysinr,
         rsrp,
         rsrq,
         mrlon,
         mrlat,
         scellmrdis,
         ulsinr,
+        ulmcs,
+        dlmcs,
         ta,
         aoa,
         puschprbnum,
@@ -347,7 +355,8 @@ temp_mrdata_hdoaCorrection as (
         select 
             enodebid, cid, rattypeid, dlearfcn, pci, citycode, districtcode, province, city, district, mcc, mnc, 
             earthid, grid_three_column_20, grid_three_column_50, grid_three_column_100, locationtype, positionmark, 
-            rsrp, rsrq, mrlon, mrlat, scellmrdis, ulsinr, ta, aoa, puschprbnum, pdschprbnum, allerabulpdcptput, allerabdlpdcptput, 
+            cqi0, beforetherotysinr,
+            rsrp, rsrq, mrlon, mrlat, scellmrdis, ulsinr, ulmcs, dlmcs, ta, aoa, puschprbnum, pdschprbnum, allerabulpdcptput, allerabdlpdcptput, 
             puschuseprbnum, pdschuseprbnum, puschavailprbnum, pdschavailprbnum, sumuetputpuschprbnum, sumuetputpdschprbnum, 
             sumulpdcpwithoutlastpiece, sumdlpdcpwithoutlastpiece, sumulpdcperabtimerlen, sumdlpdcperabtimerlen, isoverlap, 
             isovershoot, ismod3interfer,
@@ -446,7 +455,19 @@ select
     sum(sumulpdcperabtimerlen) as sumulpdcperabtimerlen,
     sum(sumdlpdcperabtimerlen) as sumdlpdcperabtimerlen,
     count(if(hdoa is not null and abs(hdoa) > #abnormalbound#, hdoa,null)) as azimuthinvalid_mrcount,
-    count(if(hdoa is not null and abs(hdoa) <= #alignbound#, hdoa,null)) as azimuthalign_mrcount
+    count(if(hdoa is not null and abs(hdoa) <= #alignbound#, hdoa,null)) as azimuthalign_mrcount,
+    sum(ta) as totalta,
+    count(ta) as tacount,
+    count(beforetherotysinr) as beforetherotysinrcount,
+    sum(beforetherotysinr) as totalbeforetherotysinr,
+    sum(cqi0) as totalcqi0,
+    count(cqi0) as cqi0count,
+    sum(case when ulmcs <> 0 then ulmcs end) as totalulmcs,
+    count(case when ulmcs <> 0 then 1 end) as ulmcscount,
+    sum(case when dlmcs <> 0 then dlmcs end) as totaldlmcs,
+    count(case when dlmcs <> 0 then 1 end) as dlmcscount,
+    count(allerabulpdcptput) as allerabulpdcptputcount,
+    count(allerabdlpdcptput) as allerabdlpdcptputcount
 from temp_mrdata_hdoaCorrection s2
 group by enodebid,cid,rattypeid,dlearfcn,pci,citycode,districtcode,province,city,district,mcc,mnc,earthid,grid_three_column_20,grid_three_column_50,grid_three_column_100,locationtype,positionmark
 ;
