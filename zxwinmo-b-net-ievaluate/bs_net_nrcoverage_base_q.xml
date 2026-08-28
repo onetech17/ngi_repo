@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<metadata>
+    <algorithmmetadata name="bs_net_nrcoverage_base_q" version="v1.0">
+        <netmax_version>v1.52</netmax_version>
+        <type>zsql</type>
+        <executecycle checkpointrecovery="false" executestart="" datastart="" dataend="" cycle="">province,fifteenminutes</executecycle>
+        <spark_special_parameter>spark_context_invest_public_forbase</spark_special_parameter>
+        <algorithminfo subtype="sql">
+            <jarpath classname="" classmethod=""/>
+            <sqlpath>bs_net_nrcoverage_base_q.sql</sqlpath>
+            <confpath>bs_net_nrcoverage_base_q.conf</confpath>
+            <udfname>widbp_common_udf</udfname>
+        </algorithminfo>
+        <inputparameter dbname="lakedb" type="iceberg" value="nr_t054_ex" parametername="nr_t054_ex" sourcename="ngi_iceberg_lakedb">
+            <partition>p_provincecode</partition>
+            <partition>p_date</partition>
+            <partition>p_hour</partition>
+            <partition>p_quarter</partition>
+            <partition>p_region</partition>
+        </inputparameter>
+        <inputparameter dbname="lakedb" type="iceberg" value="nr_nbrinfo_ex" parametername="nr_nbrinfo_ex" sourcename="ngi_iceberg_lakedb">
+            <partition>p_provincecode</partition>
+            <partition>p_date</partition>
+            <partition>p_hour</partition>
+            <partition>p_quarter</partition>
+            <partition>p_region</partition>
+        </inputparameter>
+        <inputparameter dbname="zxdmo" type="zsql" value="nr_cm_projdata" parametername="nr_cm_projdata">
+            <partition>p_provincecode</partition>
+        </inputparameter>
+        <inputparameter dbname="zxdmo" type="zsql" value="dm_nr_intersitedistance" parametername="dm_nr_intersitedistance">
+            <partition>p_provincecode</partition>
+        </inputparameter>
+        <inputparameter dbname="zxdmo" type="zsql" value="bs_net_prenodebid_q" parametername="prenodebid_q">
+            <partition>p_provincecode</partition>
+            <partition>p_date</partition>
+            <partition>p_hour</partition>
+            <partition>p_quarter</partition>
+        </inputparameter>
+        <outputparameter parametername="bs_net_nrcoverage_base_q" value="bs_net_nrcoverage_base_q" type="zsql" dbname="zxdmo" selfdependence="false">
+            <partition>p_provincecode</partition>
+            <partition>p_date</partition>
+            <partition>p_hour</partition>
+            <partition>p_quarter</partition>
+        </outputparameter>
+        <resource>
+            <core>10</core>
+            <memory>20</memory>
+        </resource>
+        <deleteinfo>
+            <deletetype>autodelete</deletetype>
+        </deleteinfo>
+        <iscache>0</iscache>
+        <prefield_1/>
+        <prefield_2/>
+        <prefield_3/>
+    </algorithmmetadata>
+</metadata>
